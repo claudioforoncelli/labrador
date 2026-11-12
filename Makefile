@@ -156,3 +156,14 @@ clean:
 
 loc:
 	wc -l $(SOURCES) $(HEADERS) data256.py Makefile test_*.c
+
+ZK_COMMON = labrador_core.c labrador.c timing.c test_proofsystem_setup.c \
+  test_constraints_setup.c proofsystem.c constraints.c comkey.c data.c polx.c \
+  poly.c polz.c aesctr.c randombytes.c fips202.c ntt.c jlproj.c gaussian.c \
+  rejection.c
+
+test_zkagg: test_zkagg.c zkagg.c zkagg.h $(ZK_COMMON)
+	$(CC) $(CFLAGS) test_zkagg.c zkagg.c $(ZK_COMMON) -o test_zkagg -lm
+
+test_zknorm: test_zknorm.c zknorm.c zknorm.h zkagg.c zkagg.h $(ZK_COMMON)
+	$(CC) $(CFLAGS) test_zknorm.c zknorm.c zkagg.c $(ZK_COMMON) -o test_zknorm -lm
